@@ -1,17 +1,5 @@
 name: Publish Royal Baghchal to GitHub Pages
 on:
-  push:
-    branches: [master]
-    paths:
-      - "index.html"
-      - "styles.css"
-      - "royal.css"
-      - "src/**"
-      - "icons/**"
-      - "images/**"
-      - "manifest.webmanifest"
-      - "sw.js"
-      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
 permissions:
