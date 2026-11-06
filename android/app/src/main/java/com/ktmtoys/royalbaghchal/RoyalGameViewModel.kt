@@ -98,20 +98,20 @@ class RoyalGameViewModel(application:Application):AndroidViewModel(application){
         if(mode==Mode.ONLINE){notify(label("leaveRoomFirst"));return}
         stopAi();newOfflineMatch();scheduleAi()
     }
-    fun setHuman(side:Side){human=side;startSolo(side,difficulty)}
-    fun setDifficulty(d:Difficulty){difficulty=d;saveSettings()}
-    fun setLanguage(tag:String){
+    fun chooseHuman(side:Side){human=side;startSolo(side,difficulty)}
+    fun chooseDifficulty(d:Difficulty){difficulty=d;saveSettings()}
+    fun chooseLanguage(tag:String){
         if(tag in listOf("ne","en","es","fr","de","zh","ja")){
             language=tag;saveSettings()
         }
     }
     fun setSound(value:Boolean){sounds=value;saveSettings()}
-    fun setHaptics(value:Boolean){haptics=value;saveSettings()}
-    fun setNickname(value:String){
+    fun updateHaptics(value:Boolean){haptics=value;saveSettings()}
+    fun updateNickname(value:String){
         nickname=value.filter { it.isLetterOrDigit()||it.isWhitespace()||it in ".-_" }.trim().take(32).ifBlank { "Royal Player" }
         saveSettings()
     }
-    fun setCountry(value:String){
+    fun updateCountry(value:String){
         country=value.uppercase().filter { it in 'A'..'Z' }.take(2).ifBlank { "NP" }
         saveSettings()
     }
@@ -185,7 +185,7 @@ class RoyalGameViewModel(application:Application):AndroidViewModel(application){
         if(mode==Mode.ONLINE||!canPlay())return
         Rules.legalMoves(game).find { it.from==from&&it.to==to }?.let{applyOffline(it,true)}
     }
-    fun setBleStatus(value:String){bleStatus=value}
+    fun updateBleStatus(value:String){bleStatus=value}
     fun undo(){
         if(mode==Mode.ONLINE||undoStack.isEmpty())return
         stopAi()

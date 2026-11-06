@@ -292,7 +292,7 @@ private fun PlayScreen(vm:RoyalGameViewModel){
             }
         }
         item{
-            RoyalBoard(game,vm.selected,vm.hint,vm.legal(),vm.canPlay(),vm.language){vm.tapCell(it)}
+            RoyalBoard(game,vm.selected,vm.hint,vm.legal(),vm.canPlay(),vm.language,vm.haptics){vm.tapCell(it)}
         }
         item{
             Text(
@@ -536,9 +536,9 @@ private fun ProfileScreen(vm:RoyalGameViewModel){
                     }
                 }
                 Spacer(Modifier.height(17.dp))
-                RoyalField(vm.label("name"),vm.nickname,vm::setNickname)
+                RoyalField(vm.label("name"),vm.nickname,vm::updateNickname)
                 Spacer(Modifier.height(9.dp))
-                RoyalField(vm.label("country"),vm.country,vm::setCountry,placeholder="NP")
+                RoyalField(vm.label("country"),vm.country,vm::updateCountry,placeholder="NP")
                 Spacer(Modifier.height(9.dp))
                 GoldButton(vm.label("save"),{vm.updateProfile();vm.notify(vm.label("save"))},
                     Modifier.fillMaxWidth())
@@ -572,14 +572,14 @@ private fun SettingsScreen(vm:RoyalGameViewModel){
                     Row(horizontalArrangement=Arrangement.spacedBy(7.dp),
                         modifier=Modifier.fillMaxWidth().padding(vertical=4.dp)){
                         for((tag,name) in chunk)
-                            ChoiceChip(name,vm.language==tag,{vm.setLanguage(tag)},Modifier.weight(1f))
+                            ChoiceChip(name,vm.language==tag,{vm.chooseLanguage(tag)},Modifier.weight(1f))
                         repeat(3-chunk.size){Spacer(Modifier.weight(1f))}
                     }
                 }
                 Spacer(Modifier.height(11.dp))
                 HorizontalDivider(color=Royal.GoldDark.copy(alpha=.4f))
                 SettingSwitch(vm.label("sound"),vm.sounds,vm::setSound)
-                SettingSwitch(vm.label("haptics"),vm.haptics,vm::setHaptics)
+                SettingSwitch(vm.label("haptics"),vm.haptics,vm::updateHaptics)
             }
         }
         item{
@@ -589,7 +589,7 @@ private fun SettingsScreen(vm:RoyalGameViewModel){
                 Row(horizontalArrangement=Arrangement.spacedBy(6.dp)){
                     for(d in Difficulty.entries)
                         ChoiceChip(vm.label(d.name.lowercase()),vm.difficulty==d,
-                            {vm.setDifficulty(d)},Modifier.weight(1f))
+                            {vm.chooseDifficulty(d)},Modifier.weight(1f))
                 }
             }
         }

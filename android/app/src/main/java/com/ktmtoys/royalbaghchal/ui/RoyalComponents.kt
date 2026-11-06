@@ -149,7 +149,7 @@ fun StatPill(title:String,value:String,modifier:Modifier=Modifier){
 }
 @Composable
 fun RoyalBoard(game:GameState,selected:Int?,hint:Move?,allowed:List<Move>,
-    enabled:Boolean,language:String,onNode:(Int)->Unit){
+    enabled:Boolean,language:String,haptics:Boolean=true,onNode:(Int)->Unit){
     val haptic=LocalHapticFeedback.current
     BoxWithConstraints(
         modifier=Modifier.fillMaxWidth().aspectRatio(1f)
@@ -210,7 +210,7 @@ fun RoyalBoard(game:GameState,selected:Int?,hint:Move?,allowed:List<Move>,
             Box(Modifier.offset(x=x,y=y).size(48.dp)
                 .semantics { contentDescription=description }
                 .clickable(enabled=enabled){
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    if(haptics)haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     onNode(i)
                 },contentAlignment=Alignment.Center){
                 if(active||destination||suggestion||last){

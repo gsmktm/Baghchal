@@ -20,13 +20,13 @@ class MainActivity:ComponentActivity(){
     private val blePermissions=registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()) { granted ->
         if(granted.values.all{it})ble.pair(vm.game)
-        else vm.setBleStatus("Bluetooth permissions not granted")
+        else vm.updateBleStatus("Bluetooth permissions not granted")
     }
     override fun onCreate(savedInstanceState:Bundle?){
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window,false)
         ble=RoyalBleController(this,
-            onStatus={vm.setBleStatus(it)},
+            onStatus={vm.updateBleStatus(it)},
             onMove={from,to->vm.bleMove(from,to)})
         vm.bleEmitter={move,game->ble.move(move,game)}
         setContent {
@@ -39,7 +39,7 @@ class MainActivity:ComponentActivity(){
         if(vm.mode==Mode.ONLINE){
             vm.notify(vm.label("bleMissing"));return
         }
-        if(!ble.supported()){vm.setBleStatus(vm.label("noHardware"));return}
+        if(!ble.supported()){vm.updateBleStatus(vm.label("noHardware"));return}
         val required=if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.S)
             arrayOf(Manifest.permission.BLUETOOTH_SCAN,Manifest.permission.BLUETOOTH_CONNECT)
         else arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
