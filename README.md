@@ -1,8 +1,10 @@
-बाघचाल (Baghchal)
+# बाघचाल (Baghchal) — KTM TOYS Nepal
 
 A complete, responsive **Tigers & Goats** strategy game from Nepal, with an authoritative online server and optional BLE-compatible physical board integration. The original repository contained only a short README; this game is the first playable application.
 
-**Play online and locally (Node.js 20+):**
+**Play now:** https://royal-baghchal-nepal.vercel.app/ — royal design, AI opponent, and local two-player play are live. International online multiplayer is visible in the interface but needs a separately hosted shared-state WebSocket backend. Guest matchmaking is **not yet live**.
+
+**Play online and locally from source (Node.js 20+):**
 ```sh
 npm install
 npm start
@@ -133,3 +135,12 @@ The royal design system is implemented in `royal.css` as a separate presentation
 ### QA
 
 Run `npm test`. HTTP integration tests now verify the royal stylesheet and SVG icons are actually served. GitHub Pages requires new offline cached assets to load once after publishing. Hardware and browser visual QA should be performed on target devices before a production marketing launch.
+
+
+## Production deployment
+
+The static frontend is deployed on **Vercel** at https://royal-baghchal-nepal.vercel.app/ from the `master` branch. `scripts/build-static.sh` stages only public browser assets into `dist`, with `vercel.json` specifying the static output. The API backend is deliberately not included in the static site. 
+
+Optional GitHub Pages publishing is configured as a **manual-only** workflow because repository GitHub Pages is currently disabled; enable Settings → Pages → Source: GitHub Actions before running the workflow. This avoids persistent failed workflows on ordinary code pushes.
+
+The server source is available in `server/` for separate deployment with durable matchmaking state and persistence before advertising worldwide ranked multiplayer. Web Bluetooth accessory use still depends on compatible BLE hardware.
